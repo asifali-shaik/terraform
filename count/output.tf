@@ -1,7 +1,7 @@
-/* output "roboshop_instances"{
+ output "roboshop_instances"{
     value = aws_instance.example
     description = "description"
-}  */
+}  
   
 
   output "fruits-list"{
