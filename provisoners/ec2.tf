@@ -6,9 +6,24 @@ resource "aws_instance" "example" {
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
 
 provisioner "local-exec" {
-    command = "echo ${self.public_ip}" > inventory.ini
+    command = "echo ${self.public_ip}> inventory.ini "
 }
 
+connection  {
+    type = "ssh"
+    user = "ec2-user"
+    password = "DevOps321"
+    host = self.public_ip
+
+}
+
+provisioner "remote-exec" {
+    inline = [ 
+        "sudo dnf install nginx -y",
+        "sudo systemctl start nginx"
+     ]
+  
+}
 
 
   tags = {
