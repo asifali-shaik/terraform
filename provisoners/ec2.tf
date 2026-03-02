@@ -1,5 +1,4 @@
 
-
 resource "aws_instance" "example" {
   ami           = "ami-0220d79f3f480ecf5"
   instance_type = "t3.micro"
@@ -22,16 +21,24 @@ provisioner "remote-exec" {
         "sudo dnf install nginx -y",
         "sudo systemctl start nginx"
      ]
-  
 }
+
+provisioner "remote-exec" {
+    inline = [ 
+        "sudo systemctl stop nginx "
+
+     ]
+  when = "destroy"
+}
+
 
 
   tags = {
     Name = "terraform"
     provider = "roboshop"
   }
-}
 
+}
 resource "aws_security_group" "allow_tls" {
   name        = "allow_all_terraform"
   description = "Allow TLS inbound traffic and all outbound traffic"
